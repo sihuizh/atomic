@@ -1,0 +1,6 @@
+# For development builds:
+# 0=${unqualifiedVersion}.${buildQualifier}
+# For release builds:
+
+0=${unqualifiedVersion}
+1=${buildQualifier}

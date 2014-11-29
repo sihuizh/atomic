@@ -33,6 +33,14 @@
                name="appName"
                value="Atomic">
          </property>
+         <property
+               name="aboutText"
+               value="%productBlurb">
+         </property>
+         <property
+               name="aboutImage"
+               value="logo.png">
+         </property>
       </product>
    </extension>
    <extension
@@ -96,6 +104,12 @@
                   commandId="org.eclipse.ui.help.displayHelp"
                   label="Help Contents"
                   mnemonic="H"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.help.aboutAction"
+                  label="About Atomic"
+                  mnemonic="A"
                   style="push">
             </command>
          </menu>
