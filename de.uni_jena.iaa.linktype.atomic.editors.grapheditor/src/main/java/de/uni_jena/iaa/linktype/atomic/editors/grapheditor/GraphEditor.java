@@ -222,7 +222,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 					file.getProject().refreshLocal(IProject.DEPTH_INFINITE, null);
 				} catch (CoreException e) {
 					MessageDialog.openError(shell, "Refresh Error!", "Auto-refreshing the Navigation View did not work. Please refresh manually by pressing F5 in the Navigation View, or \"Refresh\" in the context manu of the Navigation View.");
-					e.printStackTrace();
+					log.error("Refresh error!", e);
 				}
 			}
 			return localSaltProjectURI;

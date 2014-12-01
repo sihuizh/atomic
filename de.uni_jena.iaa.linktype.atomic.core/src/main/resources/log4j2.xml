@@ -5,16 +5,27 @@
 	</Properties>
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c: %msg%n" />
+			<PatternLayout
+				pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c: %msg%n" />
 		</Console>
-		<File name="File" fileName="${log-path}/error.log">
-			<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c: %msg%n" />
-		</File>
+		<!-- <File name="File" fileName="${log-path}/error.log"> <PatternLayout 
+			pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c: %msg%n" /> </File> -->
+		<!-- Async Loggers will auto-flush in batches, so switch off immediateFlush. -->
+		<RandomAccessFile name="RandomAccessFile" fileName="${log-path}/atomic.log"
+			immediateFlush="false" append="false">
+			<PatternLayout>
+				<!-- <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern> -->
+				<Pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c: %msg%n
+				</Pattern>
+			</PatternLayout>
+		</RandomAccessFile>
+
 	</Appenders>
 	<Loggers>
-		<Root level="all">
+		<Root level="all" includeLocation="false">
 			<AppenderRef ref="Console" level="trace" />
-			<AppenderRef ref="File" level="warn" />
+			<!-- <AppenderRef ref="File" level="warn" /> -->
+			<AppenderRef ref="RandomAccessFile" level="all"/>
 		</Root>
 	</Loggers>
 </Configuration>
