@@ -3,8 +3,6 @@
  */
 package org.corpus_tools.atomic.tokeneditor;
 
-import java.util.List;
-
 import org.corpus_tools.atomic.api.editors.DocumentGraphEditor;
 import org.corpus_tools.atomic.tokeneditor.accessors.TokenRowPropertyAccessor;
 import org.corpus_tools.atomic.tokeneditor.configuration.EditorPopupMenuConfiguration;
@@ -14,7 +12,6 @@ import org.corpus_tools.atomic.tokeneditor.data.TokenListDataProvider;
 import org.corpus_tools.atomic.tokeneditor.providers.TokenColumnHeaderDataProvider;
 import org.corpus_tools.atomic.tokeneditor.providers.TokenRowHeaderDataProvider;
 import org.corpus_tools.salt.common.STextualRelation;
-import org.corpus_tools.salt.common.SToken;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.FontDescriptor;
@@ -112,11 +109,11 @@ public class TableBasedTokenEditor extends DocumentGraphEditor implements ISelec
 		final NatTable natTable = new NatTable(parent, SWT.NO_BACKGROUND
 	            | SWT.NO_REDRAW_RESIZE | SWT.DOUBLE_BUFFERED | SWT.V_SCROLL
 	            | SWT.H_SCROLL | SWT.BORDER, compositeLayer, false);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(natTable);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(natTable);
 
 		// StyledText
 		final StyledText text = new StyledText(parent, SWT.H_SCROLL| SWT.BORDER);
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(text);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(text);
 		FontDescriptor largeFontDescriptor = FontDescriptor.createFrom(text.getFont()).setHeight(22);
 		Font largeFont = getFont(largeFontDescriptor.createFont(text.getDisplay()).getFontData()[0]);
 		text.setFont(largeFont);
@@ -251,8 +248,9 @@ public class TableBasedTokenEditor extends DocumentGraphEditor implements ISelec
 	 * @return
 	 */
 	private ISpanningDataProvider createDataProvider() {
-		final List<SToken> tokens = graph.getSortedTokenByText();
-		return new TokenListDataProvider(tokens, new TokenRowPropertyAccessor(graph));
+//		final List<SToken> tokens = graph.getSortedTokenByText();
+		return new TokenListDataProvider(graph, new TokenRowPropertyAccessor(graph));
+//		return new GraphGridDataProvider(graph, new TokenRowPropertyAccessor(graph));
 	}
 
 	private void resetText(StyledText text) {
