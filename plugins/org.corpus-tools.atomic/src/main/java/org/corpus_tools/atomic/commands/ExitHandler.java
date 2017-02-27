@@ -23,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -54,7 +55,18 @@ public class ExitHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		log.trace("Attempting to close the Atomic workbench.");
-		boolean closeResult = HandlerUtil.getActiveWorkbenchWindow(event).close();
+		log.trace("Attempting to close all open editors.");
+		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
+		final IWorkbenchPage activePage = window.getActivePage();
+		boolean closeEditorsResult = activePage.closeEditors(activePage.getEditorReferences(), true);
+		if (!closeEditorsResult) {
+			log.error("Attempt to close all editors before exiting failed!");
+		}
+		else {
+			log.trace("Attempt to close all editors before exiting succeeded!");
+		}
+		
+		boolean closeResult = window.close();
 		if (!closeResult) {
 			log.error("Attempt to close the Atomic workbench failed!");
 		}
